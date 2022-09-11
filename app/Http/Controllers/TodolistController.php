@@ -15,7 +15,8 @@ class TodolistController extends Controller
     public function index()
     {
         //
-        $todolists = Todolist::all();
+        // $todolists = Todolist::where('Auth::user()->id','user_id');
+        $todolists = Todolist::where('user_id',auth()->user()->id)->get(); 
         return view('home',compact('todolists'));
     }
 
@@ -38,9 +39,10 @@ class TodolistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //from input
         $data=$request->validate([
-            'content'=>'required'
+            'content'=>'required',
+            'user_id'=>'required'
         ]);
         Todolist::create($data);
         return back();
